@@ -17,4 +17,5 @@ public class Main {
                 HashiPanel hp = new HashiPanel();
                 hp.init();
         }
+        //kommentar
 }
