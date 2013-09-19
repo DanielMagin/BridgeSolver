@@ -15,13 +15,13 @@ public class Node {
         public int y;
 
         public int value;
-        private int actualValue;
+        private int initialValue;
+        private boolean created = false;
 
         public Node(int x, int y, int value) {
                 this.x = x;
                 this.y = y;
                 this.value = value;
-                this.actualValue = value;
         }
 
         @Override
@@ -38,12 +38,17 @@ public class Node {
                 else result+= i;
                 return result;
         }
-        
-        public int decreaseActualValue(){
-            return --this.actualValue;
+               
+        public void created(){
+            this.initialValue = this.value;
+            this.created = true;
         }
         
-        public int getActualValue(){
-            return this.actualValue;
+        public int getInitialValue(){
+            return this.initialValue;
+        }
+        
+        public boolean isCreated(){
+            return this.created;
         }
 }

@@ -85,8 +85,8 @@ public class Hashi {
                                 //remove both lines
                                 curLines.remove(format);
 
-                                this.increaseNode(line.x1, line.y1, 2);
-                                this.increaseNode(line.x2, line.y2, 2);
+                                this.increaseNode(line.x1, line.y1, 1);
+                                this.increaseNode(line.x2, line.y2, 1);
                         }
                 } else {
                         //remove both lines
@@ -112,6 +112,9 @@ public class Hashi {
                 if (nodes.containsKey(format)) {
                         Node n = nodes.get(format);
                         n.value += amount;
+                        if(n.isCreated() && n.value > n.getInitialValue()){
+                            n.value = n.getInitialValue();
+                        }
                 } else {
                         Node n = new Node(x, y, amount);
                         nodes.put(format, n);
@@ -150,5 +153,13 @@ public class Hashi {
 
         public Map<String, Node> getNodes() {
                 return nodes;
+        }
+        
+        public void created(){
+            Iterator<Node> it = nodes.values().iterator();
+                while(it.hasNext()){
+                        Node n = it.next();
+                        n.created();
+                }
         }
 }

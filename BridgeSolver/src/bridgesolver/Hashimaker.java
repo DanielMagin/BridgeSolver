@@ -59,7 +59,7 @@ public class Hashimaker {
                 }
 
                 this.getPossibleNodes(3, 4);
-
+                hashi.created();
                 return hashi;
         }
 
