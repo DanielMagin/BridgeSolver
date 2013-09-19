@@ -15,11 +15,13 @@ public class Node {
         public int y;
 
         public int value;
+        private int actualValue;
 
         public Node(int x, int y, int value) {
                 this.x = x;
                 this.y = y;
                 this.value = value;
+                this.actualValue = value;
         }
 
         @Override
@@ -35,5 +37,13 @@ public class Node {
                 if(i<10) result += "0"+i;
                 else result+= i;
                 return result;
+        }
+        
+        public int decreaseActualValue(){
+            return --this.actualValue;
+        }
+        
+        public int getActualValue(){
+            return this.actualValue;
         }
 }
