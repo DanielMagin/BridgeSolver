@@ -4,6 +4,7 @@
  */
 package bridgesolver;
 
+import com.sun.media.sound.AiffFileReader;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -124,7 +125,10 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
                 Map<String, Line> lines = null;
 
                 if (lineDraw) {
-                        lines = h.getSolLines();
+                        //lines = h.getSolLines();
+                        AI ai = new AI();
+                        ai.solveGame();
+                        lines = h.getCurLines();
                 } else {
                         lines = h.getCurLines();
                 }
