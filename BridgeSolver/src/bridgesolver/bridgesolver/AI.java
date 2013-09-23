@@ -8,8 +8,19 @@ package bridgesolver;
  *
  * @author Stazzer
  */
-public class AI {
+public abstract class AI {
+    
+    protected Hashi hashi;
+    
+    public AI(Hashi hashi){
+        this.hashi = hashi;
+    }
+    
     public void solveGame(){
-        System.out.print("solved");
+    }
+    
+    protected void drawLine(Node n1, Node n2){
+        Line line = new Line(n1, n2, false);
+        hashi.addCurLine(line);
     }
 }

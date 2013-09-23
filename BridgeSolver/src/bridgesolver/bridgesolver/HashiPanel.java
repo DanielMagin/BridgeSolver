@@ -125,7 +125,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
 
                 if (lineDraw) {
                         //lines = h.getSolLines();
-                        AI ai = new AI();
+                        ExampleAI ai = new ExampleAI(this.h);
                         ai.solveGame();
                         lines = h.getCurLines();
                 } else {
