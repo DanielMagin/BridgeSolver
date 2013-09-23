@@ -146,7 +146,8 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
                         Node n = it2.next();
 
                         if (n != null) {
-                                this.drawNode(g2d, n.x, n.y, n.value);
+//                                this.drawNode(g2d, n.x, n.y, n.value);
+                                this.drawNode(g2d, n.x, n.y, n.getInitialValue());
                         }
                 }
         }
