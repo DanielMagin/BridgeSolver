@@ -67,7 +67,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
         normal = new BasicStroke(1);
         bold = new BasicStroke(2);
     }
-
+    
     public void init() {
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
@@ -214,6 +214,10 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
     void solveWithAI() {
         ExampleAI ai = new ExampleAI(h, this);
         ai.solve();
+        this.repaint();
+    }
+    
+    public void refresh(){
         this.repaint();
     }
 

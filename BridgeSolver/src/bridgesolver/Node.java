@@ -20,15 +20,13 @@ public class Node {
         private int initialValue;
         private boolean created = false;
         
-        public Node neighbours[];
-        public int lines[];
+        public NeighborNode neighbours[];
 
         public Node(int x, int y, int value) {
                 this.x = x;
                 this.y = y;
                 this.value = value;
-                neighbours = new Node[4];
-                lines = new int[4];
+                neighbours = new NeighborNode[4];
         }
 
         @Override
