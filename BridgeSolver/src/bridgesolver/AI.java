@@ -12,7 +12,6 @@ public class AI {
 
     private HashiPanel hashiPanel;
     private Hashi hashi;
-    
     public static final int NORTH = 0;
     public static final int EAST = 1;
     public static final int SOUTH = 2;
@@ -51,25 +50,38 @@ public class AI {
 
     public boolean solveHashiWithDFS() {
         solveHashi();
-        if (!this.hashi.isWin()) {
-            //DFS und neu testen 
-            Hashi originalHashi = new Hashi(this.hashi);
-            for (Node n : this.hashi.getNodes().values()) {
+        if (this.hashi.isWin()) {
+            return true;
+        } else {
+            Hashi backupHashi = new Hashi(this.hashi);
+            for(Node n : backupHashi.getNodes().values()){
+                this.exploreNeighbours(n);
+            }
+            
+            for (Node n : backupHashi.getNodes().values()) {
                 if (n.value > 0) {
                     for (int i = 0; i < 4; i++) {
-                        if (n.neighbours[i] != null) {
-                            drawLine(n, i, false);
-                            if (solveHashiWithDFS()) {
+                        if (n.neighbours[i] != null && n.neighbours[i].value > 0) {
+                            this.hashi.addCurLine(new Line(n, n.neighbours[i], false));
+                            System.out.println("added line in DFS");
+                            if (this.hashi.isWin()) {
                                 return true;
+                            } else {
+                                this.exploreNeighbours(n);
+                                if (solveHashiWithDFS()) {
+                                    return true;
+                                } else {
+                                    this.hashiPanel.setHashi(backupHashi);
+                                    this.hashi = backupHashi;
+                                    System.out.println("Backtracking");
+                                }
                             }
-                          this.hashi = originalHashi;  
                         }
                     }
                 }
             }
-            return false;
         }
-        return true;
+        return false;
     }
 
     private boolean applyFewNeighborTechnique(Node n) {

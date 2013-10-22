@@ -31,6 +31,8 @@ public class Node {
         
         public Node(Node n){
             this(n.x,n.y,n.value);
+            this.initialValue=n.initialValue;
+            this.created=n.created;
         }
 
         @Override

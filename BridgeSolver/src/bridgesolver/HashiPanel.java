@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Timer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -48,7 +49,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
     private int curNodeX = -1;
     private int curNodeY = -1;
     private Hashimaker maker;
-    private Hashi h;
+    private Hashi hashi;
     private JFrame f;
     private JButton newButton;
     private JButton solution;
@@ -62,10 +63,18 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
         this.setBackground(Color.white);
 
         maker = new Hashimaker();
-        h = maker.newHashi(dimX, dimY);
+        hashi = maker.newHashi(dimX, dimY);
 
         normal = new BasicStroke(1);
         bold = new BasicStroke(2);
+    }
+    
+    public Hashi getHashi(){
+        return this.hashi;
+    }
+    
+    public void setHashi(Hashi h){
+        this.hashi=h;
     }
     
     public void init() {
@@ -124,12 +133,12 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
         Map<String, Line> lines;
 
         if (lineDraw) {
-            lines = h.getSolLines();
+            lines = hashi.getSolLines();
 //                        ExampleAI ai = new ExampleAI(this.h);
 //                        ai.solveGame();
 //                        lines = h.getCurLines();
         } else {
-            lines = h.getCurLines();
+            lines = hashi.getCurLines();
         }
 
         Iterator<Line> it = lines.values().iterator();
@@ -139,7 +148,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
             this.drawLine(g2d, l, true);
         }
 
-        Map<String, Node> nodes = h.getNodes();
+        Map<String, Node> nodes = hashi.getNodes();
         Iterator<Node> it2 = nodes.values().iterator();
 
         while (it2.hasNext()) {
@@ -199,7 +208,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
     }
 
     public final void newHashi(Hashi h) {
-        this.h = h;
+        this.hashi = h;
         this.setPreferredSize(new Dimension(dimX * scale + 10, dimY * scale + 10));
         this.revalidate();
         lineDraw = false;
@@ -212,9 +221,14 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
     }
 
     void solveWithAI() {
-        AI ai = new AI(h, this);
-        System.out.println(ai.solveHashiWithDFS());
+        AI ai = new AI(hashi, this);
+        ai.solveHashiWithDFS();
         this.repaint();
+        if(this.hashi.isWin()){
+            JOptionPane.showMessageDialog(this, "Game solved", "Solved", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(this, "Game not solved", "Loos", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     public void refresh(){
@@ -258,9 +272,9 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
         int x = p.x / scale;
         int y = p.y / scale;
 
-        Map<String, Node> nodes = h.getNodes();
+        Map<String, Node> nodes = hashi.getNodes();
 
-        String format = h.formatInt(x, y);
+        String format = hashi.formatInt(x, y);
 
         if (x != curNodeX || y != curNodeY) {
             if (nodes.containsKey(format)) {
@@ -279,12 +293,12 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
             Point p = this.getNextNode(i);
             if (p != null) {
                 Line l = new Line(curNodeX, curNodeY, p.x, p.y, true);
-                Map<String, Line> curLines = h.getCurLines();
+                Map<String, Line> curLines = hashi.getCurLines();
 
                 Line cur = curLines.get(l.toString());
                 if (cur == null || !cur.hasTwo) {
-                    int start = h.getNodeValue(l.x1, l.y1);
-                    int end = h.getNodeValue(l.x2, l.y2);
+                    int start = hashi.getNodeValue(l.x1, l.y1);
+                    int end = hashi.getNodeValue(l.x2, l.y2);
                     if (start > 0 && end > 0) {
                         this.drawLine(g, l, false);
                     }
@@ -295,11 +309,11 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
 
     private Point getNextNode(int direction) {
         Point p;
-        Map<String, Node> nodes = h.getNodes();
+        Map<String, Node> nodes = hashi.getNodes();
         switch (direction) {
             case NORTH:
                 for (int i = curNodeY - 1; i >= 0; i--) {
-                    String format = h.formatInt(curNodeX, i);
+                    String format = hashi.formatInt(curNodeX, i);
                     if (nodes.containsKey(format)) {
                         Node n = nodes.get(format);
                         if (n != null) {
@@ -310,8 +324,8 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
                 }
                 break;
             case EAST:
-                for (int i = curNodeX + 1; i < h.dimX; i++) {
-                    String format = h.formatInt(i, curNodeY);
+                for (int i = curNodeX + 1; i < hashi.dimX; i++) {
+                    String format = hashi.formatInt(i, curNodeY);
                     if (nodes.containsKey(format)) {
                         Node n = nodes.get(format);
                         if (n != null) {
@@ -323,7 +337,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
                 break;
             case WEST:
                 for (int i = curNodeX - 1; i >= 0; i--) {
-                    String format = h.formatInt(i, curNodeY);
+                    String format = hashi.formatInt(i, curNodeY);
                     if (nodes.containsKey(format)) {
                         Node n = nodes.get(format);
                         if (n != null) {
@@ -334,8 +348,8 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
                 }
                 break;
             case SOUTH:
-                for (int i = curNodeY + 1; i < h.dimY; i++) {
-                    String format = h.formatInt(curNodeX, i);
+                for (int i = curNodeY + 1; i < hashi.dimY; i++) {
+                    String format = hashi.formatInt(curNodeX, i);
                     if (nodes.containsKey(format)) {
                         Node n = nodes.get(format);
                         if (n != null) {
@@ -361,8 +375,8 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
             Point nextNode = this.getNextNode(direction);
             if (nextNode != null) {
                 Line l = new Line(curNodeX, curNodeY, nextNode.x, nextNode.y, false);
-                h.addCurLine(l);
-                if (h.isWin()) {
+                hashi.addCurLine(l);
+                if (hashi.isWin()) {
                     this.playWinAnimation();
                 }
                 this.repaint();
