@@ -29,6 +29,10 @@ public class Line {
                 this.flip();
         }
 
+        public Line(Line l){
+            this(l.x1,l.y1,l.x2,l.y2,l.hasTwo);
+        }
+        
         public final void flip(){
                 if(x1>x2) {
                         int old = x1;

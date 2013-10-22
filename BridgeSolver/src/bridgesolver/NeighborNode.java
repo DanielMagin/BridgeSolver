@@ -20,5 +20,6 @@ public class NeighborNode {
     public NeighborNode(Node node, int possibleConnections) {
         this.node = node;
         this.possibleConnections = (possibleConnections == 1) ? 1 : 2;
+//        this.possibleConnections=Math.min(possibleConnections, node.value);
     }
 }
