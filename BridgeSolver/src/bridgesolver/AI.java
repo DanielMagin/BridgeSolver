@@ -6,7 +6,7 @@ package bridgesolver;
 
 /**
  *
- * @author maginda
+ * @author Daniel Magin
  */
 public class AI {
 
@@ -54,16 +54,15 @@ public class AI {
             return true;
         } else {
             Hashi backupHashi = new Hashi(this.hashi);
-            for(Node n : backupHashi.getNodes().values()){
+            for (Node n : backupHashi.getNodes().values()) {
                 this.exploreNeighbours(n);
             }
-            
+
             for (Node n : backupHashi.getNodes().values()) {
                 if (n.value > 0) {
                     for (int i = 0; i < 4; i++) {
                         if (n.neighbours[i] != null && n.neighbours[i].value > 0) {
                             this.hashi.addCurLine(new Line(n, n.neighbours[i], false));
-                            System.out.println("added line in DFS");
                             if (this.hashi.isWin()) {
                                 return true;
                             } else {
@@ -73,7 +72,6 @@ public class AI {
                                 } else {
                                     this.hashiPanel.setHashi(backupHashi);
                                     this.hashi = backupHashi;
-                                    System.out.println("Backtracking");
                                 }
                             }
                         }

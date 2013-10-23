@@ -68,15 +68,15 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
         normal = new BasicStroke(1);
         bold = new BasicStroke(2);
     }
-    
-    public Hashi getHashi(){
+
+    public Hashi getHashi() {
         return this.hashi;
     }
-    
-    public void setHashi(Hashi h){
-        this.hashi=h;
+
+    public void setHashi(Hashi h) {
+        this.hashi = h;
     }
-    
+
     public void init() {
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
@@ -134,9 +134,6 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
 
         if (lineDraw) {
             lines = hashi.getSolLines();
-//                        ExampleAI ai = new ExampleAI(this.h);
-//                        ai.solveGame();
-//                        lines = h.getCurLines();
         } else {
             lines = hashi.getCurLines();
         }
@@ -155,7 +152,6 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
             Node n = it2.next();
 
             if (n != null) {
-//                                this.drawNode(g2d, n.x, n.y, n.value);
                 this.drawNode(g2d, n.x, n.y, n.getInitialValue());
             }
         }
@@ -187,10 +183,6 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
             g.setStroke(bold);
             g.fillOval(x * scale, y * scale, 20, 20);
 
-            //draw possible lines
-            if (!this.lineDraw) {
-                //this.drawHelpLines(g);
-            }
             g.setStroke(normal);
         } else {
             if (value == 0) {
@@ -203,8 +195,6 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
 
         g.setColor(Color.black);
         g.drawString("" + value, x * scale + 7, y * scale + 15);
-        //DEBUGGIG
-//                g.drawString(x+"|"+y+"$" + value, x * scale + 7, y * scale + 15);
     }
 
     public final void newHashi(Hashi h) {
@@ -224,14 +214,14 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
         AI ai = new AI(hashi, this);
         ai.solveHashiWithDFS();
         this.repaint();
-        if(this.hashi.isWin()){
-            JOptionPane.showMessageDialog(this, "Game solved", "Solved", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(this, "Game not solved", "Loos", JOptionPane.INFORMATION_MESSAGE);
+        if (this.hashi.isWin()) {
+            f.setTitle("Hashi solved");
+        } else {
+            f.setTitle("Hashi not solved");
         }
     }
-    
-    public void refresh(){
+
+    public void refresh() {
         this.repaint();
     }
 
@@ -239,6 +229,7 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == newButton) {
             isWin = false;
+            f.setTitle("Hashi");
             if (t != null) {
                 t.cancel();
             }
@@ -254,7 +245,6 @@ class HashiPanel extends JPanel implements ActionListener, MouseMotionListener, 
                 this.newHashi(maker.newHashi(dimX, dimY));
             }
         } else {
-//                        this.solve();
             this.solveWithAI();
         }
     }
