@@ -62,15 +62,13 @@ public class AI {
                 if (n.value > 0) {
                     for (int i = 0; i < 4; i++) {
                         if (n.neighbours[i] != null && n.neighbours[i].value > 0) {
-                            this.hashi.addCurLine(new Line(n, n.neighbours[i], false));
+                            this.drawLine(n, i, false);
                             if (this.hashi.isWin()) {
                                 return true;
                             } else {
-                                this.exploreNeighbours(n);
                                 if (solveHashiWithDFS()) {
                                     return true;
                                 } else {
-                                    this.hashiPanel.setHashi(backupHashi);
                                     this.hashi = backupHashi;
                                 }
                             }
